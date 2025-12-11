@@ -23,28 +23,28 @@ workflow mapping{
 
 
 
-    Channel.fromPath(file(params.bam_dir).resolve("*.bam")).set { bams }
+    Channel.fromPath(file(params.bam_dir).resolve("*.bam")).map(x -> tuple( x.toString().split("/")[-1].split(".sorted")[0]  , x ) ) ).set { bams }
      
-//    made_ch_blast_dbs.view()
+    bams.view()
 
-    bams
-        | index_bam
-        | bam2lca
-        | map { v -> tuple(v[1], v[2], v[3]) }
-        | flatten
-        | branch { v -> 
-            bests : v.toString().contains(".lca.best.json")
-            consensuses : v.toString().contains(".lca.consensus.json")
-            annotations : v.toString().contains(".read_annotation.json")
-        }
-        | set{ jsons }
+    // bams
+    //     | index_bam
+    //     | bam2lca
+    //     | map { v -> tuple(v[1], v[2], v[3]) }
+    //     | flatten
+    //     | branch { v -> 
+    //         bests : v.toString().contains(".lca.best.json")
+    //         consensuses : v.toString().contains(".lca.consensus.json")
+    //         annotations : v.toString().contains(".read_annotation.json")
+    //     }
+    //     | set{ jsons }
 
 
-    jsons.bests.toList()
-        | concat(jsons.consensuses.toList())
-        | concat(jsons.annotations.toList())
-        | toList
-        | make_tables
+    // jsons.bests.toList()
+    //     | concat(jsons.consensuses.toList())
+    //     | concat(jsons.annotations.toList())
+    //     | toList
+    //     | make_tables
 }
 
 workflow {
