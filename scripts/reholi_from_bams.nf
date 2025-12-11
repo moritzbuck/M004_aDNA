@@ -49,9 +49,8 @@ workflow mapping{
 
 workflow {
 
-new_dbs = make_dbs()
-new_dbs.view()
-mapping(new_dbs)
+
+mapping()
 
 }
 
