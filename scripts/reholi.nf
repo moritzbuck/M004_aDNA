@@ -42,8 +42,6 @@ workflow mapping{
         extra_dbs
     main : 
 
-
-
     Channel.fromFilePairs(file(params.fastq_dir).resolve('*_{R1,R2}*.fastq.gz')).set { ch_fastq_gzs }
     Channel.fromPath(file(params.db_dir).resolve("*.rev.1.bt2l")).concat(extra_dbs).map{ x -> x.toString().split(".rev")[0] }.unique().set { made_ch_blast_dbs }
     

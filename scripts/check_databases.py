@@ -47,8 +47,8 @@ def main(args) :
             to_process += [genome]
         else :
             print(f"{genome} has been indexed allready")
-        with open(ouput, "w") as handle:
-            handle.write("\n".join(to_process) + "\n")
+    with open(ouput, "w") as handle:
+        handle.write("\n".join(to_process) + "\n")
 
 
 

@@ -10,6 +10,7 @@ process validate{
 }
 
 process unpigz{
+    label "low_cpu"
     cache 'true'
     input:
     tuple val(sampleID), path(fastq_pair)
@@ -235,6 +236,7 @@ process merge_hits {
 }
 
 process merge_bams {
+    label "high_mem"
     input:
     tuple val(sampleID), val(dbs), file(bam_files)
     output:
@@ -257,18 +259,19 @@ process filter_bam {
 }
 
 process sort_bam {
+    label "high_mem"
     input:
     tuple val(sampleID), file(bam_file)
     output:
     tuple val(sampleID), file("${sampleID}.sorted.bam")
     script:
     """
-    samtools sort -@ ${task.cpus} -o ${sampleID}.sorted.bam ${bam_file}
+    samtools sort -@ ${task.cpus} -m 500M -o ${sampleID}.sorted.bam ${bam_file}
     """
 }
 
 process index_bam {
-    label "low_cpu"
+//    label "high_mem"
     input:
     tuple val(sampleID), file(bam_file)
     output:
