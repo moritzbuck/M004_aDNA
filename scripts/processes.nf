@@ -296,7 +296,7 @@ process bam2lca {
 }
 
 process make_tables {
-    label "no_cpu"
+    label "low_cpu"
     publishDir "${params.out_dir}", mode: 'copy', overwrite: true
     input: tuple(file(lca_bests) ,file(lca_alls), file(read_annotations))
     output:
